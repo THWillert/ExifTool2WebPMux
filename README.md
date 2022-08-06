@@ -1,6 +1,9 @@
 # ExifTool2WebPMux
 Command line utility to write WebP metadata with ExifTool and webpmuxer.
 
+## Installation
+In the same path or direcory like exiftool.exe and webpmuxer.exe
+
 ---
 ## Examples:
 
