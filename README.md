@@ -7,6 +7,11 @@ In the same path or directory like ExifTool.exe and WebPMux.exe
 ## How it works
 The specified meta data is written to a sidecar file by the ExifTool. This is the input for WebPMux.
 
+## Required files
+[ExifTool](https://exiftool.org/)
+
+[WebPMux](https://storage.googleapis.com/downloads.webmproject.org/releases/webp/index.html)
+
 ---
 ## Examples:
 
