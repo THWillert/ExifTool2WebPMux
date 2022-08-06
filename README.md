@@ -2,7 +2,10 @@
 Command line utility (wrapper) to write WebP metadata with ExifTool and WebPMux.
 
 ## Installation
-In the same path or direcory like exiftool.exe and webpmux.exe
+In the same path or directory like ExifTool.exe and WebPMux.exe
+
+## How it works
+The specified meta data is written to a sidecar file by the ExifTool. This is the input for WebPMux.
 
 ---
 ## Examples:
