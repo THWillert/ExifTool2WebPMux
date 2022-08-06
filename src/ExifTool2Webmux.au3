@@ -4,7 +4,7 @@
 ; AutoIt Version : V3.3.14.2
 ; Version .......: V2.0.0
 ; Syntax ........: ExifTool2WebPMux WebP-File ExifTool-Parameters
-; Author(s) .....:
+; Author(s) .....: Thorsten Willert
 ; Date ..........: Sat Aug 06 18:30:14 CEST 2022
 ; Link ..........: www.thorsten-willert.de
 ; Example .......: Yes
