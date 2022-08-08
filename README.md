@@ -14,6 +14,8 @@ The specified meta data is written to a sidecar file by the ExifTool. This is th
 
 -result: shows all metadata of the output-file (same like "exiftool.exe -g image.webp")
 
+-silent: no messages are shown
+
 ## Required files
 [ExifTool](https://exiftool.org/)
 
@@ -35,5 +37,5 @@ ExifTool2Webpmux.exe "R:\test.webp" -icc:all=
 ```
 
 ## ToDo
-- [ ] Simple parameter check
-- [ ] Check for existing exiftool and webpmux
+- [x] Simple parameter check
+- [x] Check for existing exiftool and webpmux
