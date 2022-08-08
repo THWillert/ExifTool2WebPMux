@@ -2,11 +2,11 @@
 ; # ExifTool2WebPMux # =========================================================
 ; Name ..........: ExifTool2WebPMux
 ; Description ...: Uses ExifTool and WebPMux to tag WebP-images
-; AutoIt Version : V3.3.14.2
-; Version .......: V2.2.0
+; AutoIt Version : v3.3.16.0
+; Version .......: V2.3.0
 ; Syntax ........:
 ; Author(s) .....: Thorsten Willert
-; Date ..........: Sun Aug 07 15:13:58 CEST 2022
+; Date ..........: Mon Aug 08 08:05:28 CEST 2022
 ; Link ..........: www.thorsten-willert.de
 ; Example .......: Yes
 ; Created with ..: jEdit4AutoIt
@@ -19,11 +19,21 @@
 
 Opt("ExpandVarStrings", 1)
 
+; check for tools
+If Not Run("exiftool.exe -h", "", @SW_HIDE , $STDERR_MERGED) Then
+	ConsoleWrite("Error: ExifTool.exe not available" & @crlf)
+	Exit
+EndIf
+If Not Run("exiftool.exe -h", "", @SW_HIDE , $STDERR_MERGED) Then
+	ConsoleWrite("Error: WebPMux.exe not available" & @crlf)
+	Exit
+EndIf
+
 Const $aCmdLine = _WinAPI_CommandLineToArgv($CmdLineRaw)
 
 ; help and exit
 If ($aCmdLine[0] = 0) Then
-	ConsoleWrite(StringReplace("ExifTool2WebPMux V2.2.0: 2022 by Thorsten Willert\n\nOptions:\n1: filename\n2: parameters for ExifTool\n", "\n", @CRLF))
+	ConsoleWrite(StringReplace("ExifTool2WebPMux V2.3.0: 2022 by Thorsten Willert\n\nOptions:\n1: filename\n2: parameters for ExifTool\n-result: shows all metadata of the output file\n", "\n", @CRLF))
 	Exit
 EndIf
 
@@ -36,12 +46,13 @@ OnAutoItExitRegister("_exit") ; must be here because of tmp-file-vars
 Const $outfile = $aCmdLine[1]
 If Not FileExists($outfile) Then
 	ConsoleWrite(@crlf & "File not found: $outfile$" & @crlf)
-	Exit (1)
+	Exit(1)
 EndIf
 Const $sMux = ' "$outfile$" -o "$outfile$"'
 
 Global $sExifToolArgs = ""
 Global $bResult = False
+Global $bSilent = False
 
 ;===============================================================================
 ; command for ExifTool
@@ -59,8 +70,12 @@ $sExifToolArgs = StringReplace($sExifToolArgs, ':all=""', ':all=')
 ; print result
 If StringInStr( $sExifToolArgs, "-result") Then $bResult = True
 $sExifToolArgs = StringReplace($sExifToolArgs, '-result', '')
+; print nothing
+If StringInStr( $sExifToolArgs, "-silent") Then $bSilent = True
+$sExifToolArgs = StringReplace($sExifToolArgs, '-silent', '')
 
-ConsoleWrite( "## Filesize: " & Round(FileGetSize( $outfile) / 1000, 3) & " kB" & @crlf)
+; size of original file
+If Not $bSilent Then ConsoleWrite( "## Filesize: " & Round(FileGetSize( $outfile) / 1000, 3) & " kB" & @crlf)
 
 Select
 	Case StringInStr($sExifToolArgs, "-exif:all=") ; strip EXIF
@@ -88,21 +103,21 @@ If $bResult Then RunCom("ExifTool", ' -g "$outfile$" ' )
 
 ;===============================================================================
 ; run commands
-Func RunCom($sExe, $sPara )
+Func RunCom($sExe, $sPara = "")
 
-	Const $iPID = Run($sExe & ".exe " & $sPara, "", @SW_HIDE, $STDERR_MERGED)
+	Const $iPID = Run($sExe & ".exe " & $sPara, "", @SW_HIDE , $STDERR_MERGED)
 	Local $sOutput = ""
 
-	ConsoleWrite( @crlf & "## " &  $sExe & ":" & @crlf )
+	If Not $bSilent Then ConsoleWrite( @crlf & "## " &  $sExe & ":" & @crlf )
 
 	While Sleep(10)
 		$sOutput = StdoutRead($iPID)
 		If @error Then ExitLoop
 		If StringInStr($sOutput, "Error:") Then Return 0
-		ConsoleWrite($sOutput)
+		If Not $bSilent Then ConsoleWrite($sOutput)
 	WEnd
 
-	Return 1
+	Return $iPID
 EndFunc   ;==>RunCom
 
 ;===============================================================================
