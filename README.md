@@ -35,7 +35,3 @@ ExifTool2Webpmux.exe "R:\test.webp" -xmp:all=
 ExifTool2Webpmux.exe "R:\test.webp" -exif:all=
 ExifTool2Webpmux.exe "R:\test.webp" -icc:all=
 ```
-
-## ToDo
-- [x] Simple parameter check
-- [x] Check for existing exiftool and webpmux
