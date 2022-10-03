@@ -1,6 +1,9 @@
 # ExifTool2WebPMux
 Command line utility (wrapper) to write WebP metadata with ExifTool and WebPMux.
 
+## This tool is deprecated
+ExifTool V 12.46: Added WEBP write support 
+
 ## Installation
 In the same path or directory like ExifTool.exe and WebPMux.exe
 
